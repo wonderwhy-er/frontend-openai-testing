@@ -65,7 +65,18 @@ export function init(runCallback) {
             if (jsonToSend.functions && JSON.stringify(runData).indexOf('function_call') > -1) {
                 // function call was sent and returned
                 const functionCall = runData.choices[0].message.function_call;
-                log(functionCall.name, JSON.parse(functionCall.arguments));
+                const result = JSON.parse(functionCall.arguments);
+                log(functionCall.name, result);
+
+                const ajv = new Ajv(); // Create a new Ajv instance
+                const validate = ajv.compile(jsonToSend.functions.filter(f => f.name === functionCall.name)[0].parameters); // Compile the schema
+                const valid = validate(result); // Validate your JSON data
+
+                if (valid) {
+                    log("JSON is valid!");
+                } else {
+                    log("JSON validation errors", validate.errors);
+                }
             }
             runCallback(runData);
         } catch (error) {
