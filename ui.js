@@ -68,7 +68,7 @@ export function init(runCallback) {
                 const result = JSON.parse(functionCall.arguments);
                 log(functionCall.name, result);
 
-                const ajv = new Ajv(); // Create a new Ajv instance
+                const ajv = new Ajv({allErrors: true}); // Create a new Ajv instance
                 const validate = ajv.compile(jsonToSend.functions.filter(f => f.name === functionCall.name)[0].parameters); // Compile the schema
                 const valid = validate(result); // Validate your JSON data
 
