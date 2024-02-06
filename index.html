@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OpenAI Assistant Prompt Injection Tester</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
+</head>
+<body>
+
+<h1>Step 1: OpenAI Key(required)</h1>
+
+<label for="OPENAI_API_KEY">OPENAI_API_KEY create <a href="https://platform.openai.com/api-keys">here</a></label>
+<br/>
+<input id="OPENAI_API_KEY" type="text">
+<br/>
+<br/>
+<label>When you input key once its saved to local storage, never leaves your computer</label>
+<br/>
+<button id="delete_key">delete saved key</button>
+<button id="test_streaming">test streaming</button>
+
+<h1>Step 2: Add JSON of a call to OpenAI</h1>
+
+<label for="json">
+    JSON:
+</label>
+<br/>
+<textarea cols="80" rows="10" id="json"></textarea>
+<br/><br/>
+
+
+<h1>Step 3: Run</h1>
+<button id="run">Run</button>
+<div id="output">...</div>
+
+
+<script src="main.js" type="module"></script>
+</body>
+</html>
