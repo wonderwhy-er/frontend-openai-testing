@@ -58,10 +58,15 @@ export function init(runCallback) {
         log('Sending chat completion');
         log('⌛️ Loading...');
         try {
-
-            let runData = await chatCompletion(JSON.parse(jsonInput.value), keyInput.value);
+            let jsonToSend = JSON.parse(jsonInput.value);
+            let runData = await chatCompletion(jsonToSend, keyInput.value);
 
             log('Got result', runData);
+            if (jsonToSend.functions && JSON.stringify(runData).indexOf('function_call') > -1) {
+                // function call was sent and returned
+                const functionCall = runData.choices[0].message.function_call;
+                log(functionCall.name, JSON.parse(functionCall.arguments));
+            }
             runCallback(runData);
         } catch (error) {
             log('Error:', error);
@@ -75,7 +80,7 @@ export function log(...rest) {
     output.innerHTML = '<hr/>' + logArray.map(line => {
         let objectLog = '';
         if(line[1] instanceof Error) {
-            objectLog = lines[1].toString();
+            objectLog = line[1].toString();
         } else {
             objectLog = (line[1] ? `<pre>
   <code class="language-json">${JSON.stringify(line[1], null, 4)}</code>
